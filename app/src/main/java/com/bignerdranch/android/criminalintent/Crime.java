@@ -1,5 +1,8 @@
 package com.bignerdranch.android.criminalintent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -13,10 +16,25 @@ public class Crime {
     private Date mDate;
     private boolean mSloved;
 
+    private static final String JSON_ID = "id";
+    private static final String JSON_TITLE = "title";
+    private static final String JSON_SOLVED = "solved";
+    private static final String JSON_DATE = "date";
+
     public Crime(){
         mID = UUID.randomUUID();
         mDate = new Date();
     }
+
+    public Crime(JSONObject json) throws JSONException{
+        mID = UUID.fromString(json.getString(JSON_ID));
+        if (json.has(JSON_TITLE)){
+            mTitle = json.getString(JSON_TITLE);
+        }
+        mSloved = json.getBoolean(JSON_SOLVED);
+        mDate = new Date(json.getLong(JSON_DATE));
+    }
+
 
     @Override
     public String toString() {
@@ -49,6 +67,16 @@ public class Crime {
     public void setSloved(boolean sloved) {
         mSloved = sloved;
     }
+
+    public JSONObject toJSON() throws JSONException{
+        JSONObject json = new JSONObject();
+        json.put(JSON_ID, mID.toString());
+        json.put(JSON_TITLE, mTitle);
+        json.put(JSON_SOLVED, mSloved);
+        json.put(JSON_DATE, mDate.getTime());
+        return json;
+    }
+
 
 
 }
