@@ -29,6 +29,7 @@ public class CrimeLab {
             mCrimes = mSerializer.loadCrimes();
         }catch (Exception e){
             mCrimes = new ArrayList<Crime>();
+            Log.e(TAG, "Error loading crimes");
         }
 
     }
@@ -63,4 +64,9 @@ public class CrimeLab {
             return false;
         }
     }
+
+    public void deleteCrime(Crime c){
+        mCrimes.remove(c);
+    }
+
 }
